@@ -1,0 +1,67 @@
+<?php
+include('conexion.php');
+
+$id = $_GET['id'];
+
+if(isset($_POST['guardarCambios'])) {
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $telefono = $_POST['telefono'];
+    $direccion = $_POST['direccion'];
+    $fecha_registro = $_POST['fecha_registro'];
+    $tiene_seguro = $_POST['tiene_seguro'];
+    $seguro_medico = $_POST['seguro_medico'];
+    $sintomas = $_POST['sintomas'];
+    $diagnostico = $_POST['diagnostico'];
+    $tratamiento = $_POST['tratamiento'];
+    $conn->query("UPDATE pacientes2 SET nombre='$nombre', apellido='$apellido', telefono='$telefono', direccion='$direccion', fecha_registro='$fecha_registro', tiene_seguro='$tiene_seguro', seguro_medico='$seguro_medico', 
+    sintomas='$sintomas', diagnostico='$diagnostico', tratamiento='tratamiento'  WHERE id=$id");
+    header("Location: verPaciente.php");
+    exit;
+}
+
+$resultado = $conn->query("SELECT * FROM pacientes2 WHERE id = $id");
+$paciente = $resultado->fetch_assoc();
+?>
+
+<form method="POST">
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" value="<?= htmlspecialchars($paciente['nombre']) ?>"><br><br>
+        <label for="apellido">Apellido:</label>
+        <input type="text" name="apellido" value="<?= htmlspecialchars($paciente['apellido']) ?>"><br><br>
+        <label for="telefono">Telefono:</label>
+        <input type="tel" name="telefono" value="<?= htmlspecialchars($paciente['telefono']) ?>"><br><br>
+        <label for="direccion">Direccion:</label>
+        <input type="text" name="direccion" value="<?= htmlspecialchars($paciente['direccion']) ?>"><br><br>
+        <label for="fecha_registro">Fecha de registro:</label>
+        <input type="date" name="fecha_registro" value="<?= htmlspecialchars($paciente['fecha_registro']) ?>"><br><br>
+        <label for="tiene_seguro">¿Tiene seguro médico?</label>
+        <select name="tiene_seguro" value="<?= htmlspecialchars($paciente['tiene_seguro']) ?>">
+            <option value="No">No</option>
+            <option value="Si">Si</option>
+        </select><br><br>
+
+        <label>Seguro Médico (si aplica):</label>
+        <input type="text" name="seguro_medico" value="<?= htmlspecialchars($paciente['seguro_medico']) ?>"><br><br>
+
+        <label>Síntomas:</label>
+        <textarea name="sintomas" rows="3"><?= htmlspecialchars($paciente['sintomas']) ?>
+        </textarea><br><br>
+
+        <label>Diagnóstico:</label>
+        <textarea name="diagnostico" rows="3"><?= htmlspecialchars($paciente['diagnostico']) ?>
+        </textarea><br><br>
+
+        <label>Tratamiento:</label>
+        <textarea name="tratamiento" rows="3"><?= htmlspecialchars($paciente['sintomas']) ?>
+        </textarea><br><br>
+
+        <button type="submit" name="guardarCambios">Guardar Cambios</button>
+
+
+
+
+
+   
+</form>
